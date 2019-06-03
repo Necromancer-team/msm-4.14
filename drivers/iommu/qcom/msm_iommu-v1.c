@@ -1731,11 +1731,7 @@ struct bus_type *msm_iommu_non_sec_bus_type;
 int msm_iommu_init(struct msm_iommu_drvdata *drvdata)
 {
 	struct device *dev = drvdata->dev;
-	static bool done = false;
 	int ret;
-
-	if (done)
-		return 0;
 
 	msm_iommu_non_sec_bus_type = &iommu_non_sec_bus_type;
 	ret = bus_register(msm_iommu_non_sec_bus_type);
@@ -1753,11 +1749,8 @@ int msm_iommu_init(struct msm_iommu_drvdata *drvdata)
 		return ret;
 	};
 
-	ret = bus_set_iommu(msm_iommu_non_sec_bus_type, &msm_iommu_ops);
-	if (ret) {
-		dev_err(dev, "bus_set_iommu failed with ret=%d\n", ret);
-		return ret;
-	}
+	if (!iommu_present(msm_iommu_non_sec_bus_type))
+		bus_set_iommu(msm_iommu_non_sec_bus_type, &msm_iommu_ops);
 
 #ifdef CONFIG_ARM_AMBA
 	if (!iommu_present(&amba_bustype))
@@ -1770,8 +1763,6 @@ int msm_iommu_init(struct msm_iommu_drvdata *drvdata)
 #endif
 
 	msm_iommu_build_dump_regs_table();
-
-	done = true;
 
 	return 0;
 }
