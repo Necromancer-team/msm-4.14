@@ -2856,6 +2856,7 @@ static int __overlay_secure_ctrl(struct msm_fb_data_type *mfd)
 			(sc_in_pipe && mdp5_data->sc_enabled))
 		return ret;
 
+	mutex_lock(&mfd->sd_lock);
 	/* Secure Display */
 	if (!mdp5_data->sd_enabled && sd_in_pipe) {
 		if (!mdss_get_sd_client_cnt()) {
@@ -2864,8 +2865,10 @@ static int __overlay_secure_ctrl(struct msm_fb_data_type *mfd)
 				mdss_mdp_display_wait4pingpong(ctl, true);
 			ret = mdss_mdp_secure_session_ctrl(1,
 					MDP_SECURE_DISPLAY_OVERLAY_SESSION);
-			if (ret)
+			if (ret) {
+				mutex_unlock(&mfd->sd_lock);
 				return ret;
+			}
 		}
 		mdp5_data->sd_enabled = 1;
 		mdss_update_sd_client(mdp5_data->mdata, true);
@@ -2876,8 +2879,10 @@ static int __overlay_secure_ctrl(struct msm_fb_data_type *mfd)
 				mdss_mdp_display_wait4pingpong(ctl, true);
 			ret = mdss_mdp_secure_session_ctrl(0,
 					MDP_SECURE_DISPLAY_OVERLAY_SESSION);
-			if (ret)
+			if (ret) {
+				mutex_unlock(&mfd->sd_lock);
 				return ret;
+			}
 		}
 		mdss_update_sd_client(mdp5_data->mdata, false);
 		mdp5_data->sd_enabled = 0;
@@ -2890,8 +2895,10 @@ static int __overlay_secure_ctrl(struct msm_fb_data_type *mfd)
 				mdss_mdp_display_wait4pingpong(ctl, true);
 			ret = mdss_mdp_secure_session_ctrl(1,
 					MDP_SECURE_CAMERA_OVERLAY_SESSION);
-			if (ret)
+			if (ret) {
+				mutex_unlock(&mfd->sd_lock);
 				return ret;
+			}
 		}
 		mdp5_data->sc_enabled = 1;
 		mdss_update_sc_client(mdp5_data->mdata, true);
@@ -2902,13 +2909,16 @@ static int __overlay_secure_ctrl(struct msm_fb_data_type *mfd)
 				mdss_mdp_display_wait4pingpong(ctl, true);
 			ret = mdss_mdp_secure_session_ctrl(0,
 					MDP_SECURE_CAMERA_OVERLAY_SESSION);
-			if (ret)
+			if (ret) {
+				mutex_unlock(&mfd->sd_lock);
 				return ret;
+			}
 		}
 		mdss_update_sc_client(mdp5_data->mdata, false);
 		mdp5_data->sc_enabled = 0;
 	}
 
+	mutex_unlock(&mfd->sd_lock);
 	return ret;
 }
 
