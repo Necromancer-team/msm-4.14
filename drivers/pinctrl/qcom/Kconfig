@@ -240,6 +240,26 @@ config PINCTRL_SDM660
 	  the Qualcomm Technologies Inc TLMM block found in the Qualcomm
 	  Technologies Inc SDM660 platform.
 
+config PINCTRL_MSM8917
+	tristate "Qualcomm Technologies Inc MSM8917 pin controller driver"
+	depends on GPIOLIB && OF
+	select PINCTRL_MSM
+	help
+	  This is the pinctrl, pinmux, pinconf and gpiolib driver for the
+	  Qualcomm Technologies Inc TLMM block found on the Qualcomm
+	  Technologies Inc MSM8917 platform.
+	  If unsure say N.
+
+config PINCTRL_MSM8937
+	tristate "Qualcomm Technologies Inc MSM8937 pin controller driver"
+	depends on GPIOLIB && OF
+	select PINCTRL_MSM
+	help
+	  This is the pinctrl, pinmux, pinconf and gpiolib driver for the
+	  Qualcomm Technologies Inc TLMM block found on the Qualcomm
+	  Technologies Inc MSM8937 platform.
+	  If unsure say N.
+
 config PINCTRL_SDM429W
 	tristate "Qualcomm Technologies Inc MSM8937 pin controller driver"
 	depends on GPIOLIB && OF
