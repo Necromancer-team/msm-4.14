@@ -227,6 +227,18 @@ config ARCH_MDM9607
 	select HWSPINLOCK
 	select HAVE_CLK_PREPARE
 
+config ARCH_MSM8937
+	bool "Enable support for MSM8937 family"
+	select CPU_V7
+	select HAVE_ARM_ARCH_TIMER
+	select PINCTRL
+	select QCOM_SCM if SMP
+	select PM_DEVFREQ
+	select CLKDEV_LOOKUP
+	select HAVE_CLK
+	select HAVE_CLK_PREPARE
+	select COMMON_CLK_QCOM
+
 config ARCH_SDM429W
 	bool "Enable support for SDM429W"
 	select CPU_V7
