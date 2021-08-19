@@ -27,3 +27,5 @@ obj-$(CONFIG_PINCTRL_TRINKET) += pinctrl-trinket.o
 obj-$(CONFIG_PINCTRL_SDXPRAIRIE) += pinctrl-sdxprairie.o
 obj-$(CONFIG_PINCTRL_SDMMAGPIE) += pinctrl-sdmmagpie.o
 obj-$(CONFIG_PINCTRL_SLPI) 	+= pinctrl-slpi.o
+obj-$(CONFIG_PINCTRL_MSM8917)   += pinctrl-msm8917.o
+obj-$(CONFIG_PINCTRL_MSM8937)   += pinctrl-msm8937.o
