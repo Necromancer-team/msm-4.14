@@ -1032,6 +1032,8 @@ static struct clk_hw *sdm429w_clks[] = {
 	[RPM_SMD_SNOC_A_CLK] = &sdm429w_snoc_a_clk.hw,
 	[RPM_SMD_BIMC_CLK] = &sdm429w_bimc_clk.hw,
 	[RPM_SMD_BIMC_A_CLK] = &sdm429w_bimc_a_clk.hw,
+	[RPM_SMD_BIMC_GPU_CLK] = &qcs405_bimc_gpu_clk.hw,
+	[RPM_SMD_BIMC_GPU_A_CLK] = &qcs405_bimc_gpu_a_clk.hw,
 	[RPM_SMD_SYSMMNOC_CLK] = &sdm429w_sysmmnoc_clk.hw,
 	[RPM_SMD_SYSMMNOC_A_CLK] = &sdm429w_sysmmnoc_a_clk.hw,
 	[RPM_SMD_BB_CLK1] = &sdm429w_bb_clk1.hw,
@@ -1084,6 +1086,8 @@ static const struct of_device_id rpm_smd_clk_match_table[] = {
 	{ .compatible = "qcom,rpmcc-trinket", .data = &rpm_clk_trinket },
 	{ .compatible = "qcom,rpmcc-sdm660",  .data = &rpm_clk_sdm660  },
 	{ .compatible = "qcom,rpmcc-sdm429w", .data = &rpm_clk_sdm429w },
+	{ .compatible = "qcom,rpmcc-msm8917", .data = &rpm_clk_sdm429w },
+	{ .compatible = "qcom,rpmcc-msm8937", .data = &rpm_clk_sdm429w },
 	{ }
 };
 MODULE_DEVICE_TABLE(of, rpm_smd_clk_match_table);
@@ -1094,7 +1098,7 @@ static int rpm_smd_clk_probe(struct platform_device *pdev)
 	struct clk *clk;
 	struct rpm_cc *rcc;
 	struct clk_onecell_data *data;
-	int ret, is_qcs405, is_trinket, is_sdm660, is_sdm429w;
+	int ret, is_qcs405, is_trinket, is_sdm660, is_sdm429w, is_msm8917;
 	size_t num_clks, i;
 	struct clk_hw **hw_clks;
 	const struct rpm_smd_clk_desc *desc;
@@ -1107,8 +1111,15 @@ static int rpm_smd_clk_probe(struct platform_device *pdev)
 
 	is_sdm660 = of_device_is_compatible(pdev->dev.of_node,
 						"qcom,rpmcc-sdm660");
+
 	is_sdm429w = of_device_is_compatible(pdev->dev.of_node,
 						"qcom,rpmcc-sdm429w");
+
+	is_sdm429w = of_device_is_compatible(pdev->dev.of_node,
+						"qcom,rpmcc-msm8937");
+
+	is_msm8917 = of_device_is_compatible(pdev->dev.of_node,
+						"qcom,rpmcc-msm8917");
 
 	if (is_qcs405) {
 		ret = clk_vote_bimc(&qcs405_bimc_clk.hw, INT_MAX);
@@ -1122,7 +1133,7 @@ static int rpm_smd_clk_probe(struct platform_device *pdev)
 		ret = clk_vote_bimc(&sdm660_bimc_clk.hw, INT_MAX);
 		if (ret < 0)
 			return ret;
-	} else if (is_sdm429w) {
+	} else if (is_sdm429w || is_msm8917) {
 		ret = clk_vote_bimc(&sdm429w_bimc_clk.hw, INT_MAX);
 		if (ret < 0)
 			return ret;
@@ -1144,6 +1155,11 @@ static int rpm_smd_clk_probe(struct platform_device *pdev)
 	data = &rcc->data;
 	data->clks = clks;
 	data->clk_num = num_clks;
+
+	if (is_sdm429w) {
+		rpm_clk_sdm429w.clks[RPM_SMD_BIMC_GPU_CLK] = NULL;
+		rpm_clk_sdm429w.clks[RPM_SMD_BIMC_GPU_A_CLK] = NULL;
+	}
 
 	for (i = 0; i <= desc->num_rpm_clks; i++) {
 		if (!hw_clks[i]) {
@@ -1221,7 +1237,7 @@ static int rpm_smd_clk_probe(struct platform_device *pdev)
 		/* Hold an active set vote for the cnoc_periph resource */
 		clk_set_rate(cnoc_periph_keepalive_a_clk.hw.clk, 19200000);
 		clk_prepare_enable(cnoc_periph_keepalive_a_clk.hw.clk);
-	} else if (is_sdm429w) {
+	} else if (is_sdm429w || is_msm8917) {
 		clk_prepare_enable(sdm429w_bi_tcxo_ao.hw.clk);
 
 		clk_set_rate(pnoc_keepalive_a_clk.hw.clk, 19200000);
