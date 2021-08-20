@@ -238,7 +238,7 @@ static const char * const gcc_parent_names_12[] = {
 static const struct parent_map gcc_parent_map_14[] = {
 	{ P_BI_TCXO, 0 },
 	{ P_GPLL0_OUT_MAIN, 1 },
-	{ P_GPLL3_OUT_MAIN_DIV, 2 },
+	{ P_GPLL3_OUT_MAIN, 2 },
 	{ P_GPLL6_OUT_AUX, 3 },
 	{ P_GPLL4_OUT_AUX, 4 },
 	{ P_CORE_BI_PLL_TEST_SE, 7 },
@@ -247,7 +247,7 @@ static const struct parent_map gcc_parent_map_14[] = {
 static const struct parent_map gcc_parent_map_14_gfx3d[] = {
 	{ P_BI_TCXO, 0 },
 	{ P_GPLL0_OUT_MAIN, 5 },
-	{ P_GPLL3_OUT_MAIN_DIV, 2 },
+	{ P_GPLL3_OUT_MAIN, 2 },
 	{ P_GPLL6_OUT_AUX, 6 },
 	{ P_GPLL4_OUT_AUX, 4 },
 	{ P_CORE_BI_PLL_TEST_SE, 7 },
@@ -256,7 +256,7 @@ static const struct parent_map gcc_parent_map_14_gfx3d[] = {
 static const char * const gcc_parent_names_14[] = {
 	"bi_tcxo",
 	"gpll0_out_main",
-	"gpll3_out_main_div",
+	"gpll3_out_main",
 	"gpll6_out_aux",
 	"gpll4_out_aux",
 	"core_bi_pll_test_se",
@@ -1730,11 +1730,11 @@ static const struct freq_tbl ftbl_oxili_gfx3d_clk_src_8937[] = {
 	F_SLEW(228570000, P_GPLL0_OUT_MAIN, 3.5, 0, 0, FIXED_FREQ_SRC),
 	F_SLEW(240000000, P_GPLL6_OUT_AUX, 4.5, 0, 0, FIXED_FREQ_SRC),
 	F_SLEW(266670000, P_GPLL0_OUT_MAIN, 3, 0, 0, FIXED_FREQ_SRC),
-	F_SLEW(300000000, P_GPLL3_OUT_MAIN_DIV, 1, 0, 0, 600000000),
+	F_SLEW(300000000, P_GPLL3_OUT_MAIN, 1, 0, 0, 600000000),
 	F_SLEW(320000000, P_GPLL0_OUT_MAIN, 2.5, 0, 0, FIXED_FREQ_SRC),
 	F_SLEW(375000000, P_GPLL3_OUT_MAIN, 1, 0, 0, 750000000),
 	F_SLEW(400000000, P_GPLL0_OUT_MAIN, 2, 0, 0, FIXED_FREQ_SRC),
-	F_SLEW(450000000, P_GPLL3_OUT_MAIN_DIV, 1, 0, 0, 900000000),
+	F_SLEW(450000000, P_GPLL3_OUT_MAIN, 1, 0, 0, 900000000),
 	{ }
 };
 
@@ -1751,12 +1751,12 @@ static struct freq_tbl ftbl_oxili_gfx3d_clk_src_8917[] = {
 	F_SLEW(270000000, P_GPLL6_OUT_AUX, 4, 0, 0, FIXED_FREQ_SRC),
 	F_SLEW(320000000, P_GPLL0_OUT_MAIN, 2.5, 0, 0, FIXED_FREQ_SRC),
 	F_SLEW(400000000, P_GPLL0_OUT_MAIN, 2, 0, 0, FIXED_FREQ_SRC),
-	F_SLEW(465000000, P_GPLL3_OUT_MAIN_DIV, 1, 0, 0, 930000000),
-	F_SLEW(484800000, P_GPLL3_OUT_MAIN_DIV, 1, 0, 0, 969600000),
-	F_SLEW(500000000, P_GPLL3_OUT_MAIN_DIV, 1, 0, 0, 1000000000),
-	F_SLEW(523200000, P_GPLL3_OUT_MAIN_DIV, 1, 0, 0, 1046400000),
-	F_SLEW(550000000, P_GPLL3_OUT_MAIN_DIV, 1, 0, 0, 1100000000),
-	F_SLEW(598000000, P_GPLL3_OUT_MAIN_DIV, 1, 0, 0, 1196000000),
+	F_SLEW(465000000, P_GPLL3_OUT_MAIN, 1, 0, 0, 930000000),
+	F_SLEW(484800000, P_GPLL3_OUT_MAIN, 1, 0, 0, 969600000),
+	F_SLEW(500000000, P_GPLL3_OUT_MAIN, 1, 0, 0, 1000000000),
+	F_SLEW(523200000, P_GPLL3_OUT_MAIN, 1, 0, 0, 1046400000),
+	F_SLEW(550000000, P_GPLL3_OUT_MAIN, 1, 0, 0, 1100000000),
+	F_SLEW(598000000, P_GPLL3_OUT_MAIN, 1, 0, 0, 1196000000),
 	{ }
 };
 
