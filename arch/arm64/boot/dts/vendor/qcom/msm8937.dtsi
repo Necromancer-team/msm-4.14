@@ -302,7 +302,7 @@
 	};
 
 	qcom,sps {
-		compatible = "qcom,msm_sps_4k";
+		compatible = "qcom,msm-sps-4k";
 		qcom,pipe-attr-ee;
 	};
 
@@ -385,7 +385,7 @@
 	};
 
 	gcc_mdss: qcom,gcc-mdss@1800000 {
-		compatible = "qcom,gcc-mdss-sdm439";
+		compatible = "qcom,gcc-mdss-msm8937";
 		reg = <0x1800000 0x80000>;
 		 clocks = <&mdss_dsi0_pll PCLK_SRC_0_CLK>,
 		 <&mdss_dsi0_pll BYTECLK_SRC_0_CLK>,
