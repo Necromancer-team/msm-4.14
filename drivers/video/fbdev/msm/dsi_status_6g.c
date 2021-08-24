@@ -1,4 +1,4 @@
-/* Copyright (c) 2013-2018, 2020-2021, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2013-2018, The Linux Foundation. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -105,15 +105,16 @@ void mdss_check_dsi_ctrl_status(struct work_struct *work, uint32_t interval)
 	}
 
 	if (ctrl_pdata->status_mode == ESD_TE) {
-		uint32_t fps = mdss_panel_get_framerate(&pdata->panel_info);
-		uint32_t timeout = ((1000 / fps) + 1) * MDSS_STATUS_TE_WAIT_MAX;
+		uint32_t fps = mdss_panel_get_framerate(&pdata->panel_info,
+							FPS_RESOLUTION_HZ);
+		uint32_t timeout = ((1000 / fps) + 1) *
+					MDSS_STATUS_TE_WAIT_MAX;
 
 		if (mdss_check_te_status(ctrl_pdata, pstatus_data, timeout))
 			goto sim;
 		else
 			goto status_dead;
 	}
-
 
 	/*
 	 * TODO: Because mdss_dsi_cmd_mdp_busy has made sure DMA to
