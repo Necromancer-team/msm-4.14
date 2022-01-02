@@ -28,11 +28,6 @@ enum {
 	MDSS_PLL_TARGET_8976,
 };
 
-enum {
-	SSC_CENTRE_SPREAD,
-	SSC_DOWN_SPREAD,
-};
-
 struct mdss_pll_resources {
 
 	/* Pll specific resources like GPIO, power supply, clocks, etc*/
@@ -98,7 +93,6 @@ struct mdss_pll_resources {
 	bool ssc_center;	/* default is down spread */
 	u32 ssc_freq;
 	u32 ssc_ppm;
-	uint32_t	spread_mode;
 
 	struct mdss_pll_resources *slave;
 };
